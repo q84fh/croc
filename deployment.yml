@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: croc-deployment
+  labels:
+    app: croc
+spec:
+  selector:
+    matchLabels:
+      app: croc
+  template:
+    metadata:
+      labels:
+        app: croc
+    spec:
+      containers:
+      - name: croc
+        image: q84fh/croc:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: croc
+  labels:
+    service: croc
+spec:
+  selector:
+    app: croc
+  ports:
+  - port: 80
+    targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: croc-ingress
+spec:
+  rules:
+    - host: kolobrzeska.q84fh.net
+      http:
+        paths:
+        - path: "/"
+          pathType: Prefix
+          backend:
+            service:
+             name: croc
+             port:
+               number: 80
+
+
