@@ -3,8 +3,9 @@ FROM golang:alpine
 RUN mkdir /code
 
 ADD croc.go /code
-ADD croc_awake.html /code
 ADD croc_sleeping.html /code
+ADD croc_awake.html /code
+ADD static/ /code/static/
 
 WORKDIR /code
 

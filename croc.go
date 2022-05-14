@@ -52,6 +52,8 @@ func main() {
 	http.HandleFunc("/wake_up", wake_up)
 	http.HandleFunc("/sleep", sleep)
 
+	fileServer := http.FileServer(http.Dir("./static"))
+	http.Handle("/static/", http.StripPrefix("/static", fileServer))
 
 	log.Fatal(http.ListenAndServe(":80", nil))
 
